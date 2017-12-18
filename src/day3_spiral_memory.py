@@ -102,20 +102,8 @@ def second(threshold):
 
 
 if __name__ == '__main__':
-    # res = first(1)
-    # print(">>> %d" % res)
-    #
-    # res = first(12)
-    # print(">>> %d" % res)
-    #
-    # res = first(23)
-    # print(">>> %d" % res)
-    #
-    # res = first(1024)
-    # print(">>> %d" % res)
-    #
-    # res = first(325489)
-    # print(">>> %d" % res)
+    res = first(325489)
+    print(">>> %d" % res)
 
     res = second(325489)
     print(">>> %d" % res)
