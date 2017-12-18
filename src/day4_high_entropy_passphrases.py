@@ -1,22 +1,26 @@
 #!/usr/bin/env python3
 
 
-def calculate(passphrase):
+def first(passphrase):
     words = passphrase.split()
     distinct = set(words)
     return len(distinct) == len(words)
 
 
+def second(passphrase):
+    words = passphrase.split()
+
+    letters = set()
+    for w in words:
+        l = str(sorted(w))
+        if l in letters:
+            return False
+        letters.add(l)
+
+    return True
+
+
 if __name__ == '__main__':
-    res = calculate("aa bb cc dd ee")
-    print(">>> %s" % res)
-
-    res = calculate("aa bb cc dd aa")
-    print(">>> %s" % res)
-
-    res = calculate("aa bb cc dd aaa")
-    print(">>> %s" % res)
-
     words = ("una bokpr ftz ryw nau yknf fguaczl anu",
              "tvay wvco bcoblpt fwzg sfsys zvuqll mcbhwz ovcw fgdy",
              "ynsocz vid rfmsy essqt fpbjvvq sldje qfpvjvb",
@@ -529,5 +533,9 @@ if __name__ == '__main__':
              "huo esajup ouj oju ujo",
              "eeeu hwvsk jfkmds okhi pogskfm itdlbll",
              "lpyubo dylpfb iehwug decj ntidy cuygyg lalkb iutu oxgm imn")
-    counter = len([w for w in words if calculate(w)])
+
+    counter = len([w for w in words if first(w)])
+    print(">>> %d" % counter)
+
+    counter = len([w for w in words if second(w)])
     print(">>> %d" % counter)
