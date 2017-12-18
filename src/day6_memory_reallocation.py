@@ -29,7 +29,7 @@ def distribute(banks):
     return banks
 
 
-def calculate(banks):
+def first(banks):
     collection = []
     num = 0
     while banks not in collection:
@@ -40,6 +40,22 @@ def calculate(banks):
     return num
 
 
+def second(banks):
+    collection = {}
+    num = 0
+    ro = tuple(banks)
+    while ro not in collection:
+        num += 1
+        collection[ro] = num
+        banks = distribute(banks)
+        ro = tuple(banks)
+
+    return num - collection[ro] + 1
+
+
 if __name__ == '__main__':
-    res = calculate([0, 2, 7, 0])
+    res = first([4, 10, 4, 1, 8, 4, 9, 14, 5, 1, 14, 15, 0, 15, 3, 5])
+    print(">>> %s" % res)
+
+    res = second([4, 10, 4, 1, 8, 4, 9, 14, 5, 1, 14, 15, 0, 15, 3, 5])
     print(">>> %s" % res)
