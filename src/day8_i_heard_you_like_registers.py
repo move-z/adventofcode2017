@@ -3,6 +3,8 @@
 import re
 from collections import defaultdict
 
+import sys
+
 
 def first(*instructions):
     registers = defaultdict(lambda: 0)
@@ -25,6 +27,33 @@ def first(*instructions):
         registers[register] = value
 
     return max(registers.values())
+
+
+def second(*instructions):
+    registers = defaultdict(lambda: 0)
+    max_reg = -sys.maxsize-1
+
+    for instruction in instructions:
+        match = re.search("(\w+) (inc|dec) (-?\d+) if (\w+) ?(.+)$", instruction)
+        (register, operation, amount, test_register, condition) = match.groups()
+        amount = int(amount)
+
+        test_value = registers[test_register]
+        test = eval("%d %s" % (test_value, condition))
+        if not test:
+            continue
+
+        value = registers[register]
+        if operation == 'inc':
+            value += amount
+        else:
+            value -= amount
+        registers[register] = value
+
+        if value > max_reg:
+            max_reg = value
+
+    return max_reg
 
 
 if __name__ == '__main__':
@@ -1029,11 +1058,8 @@ if __name__ == '__main__':
             'vso inc -366 if j > -2509',
             'h inc -526 if d != -2461')
 
-    res = first('b inc 5 if a > 1',
-                'a inc 1 if b < 5',
-                'c dec -10 if a >= 1',
-                'c inc -20 if c == 10')
+    res = first(*data)
     print(">>> %s" % res)
 
-    res = first(*data)
+    res = second(*data)
     print(">>> %s" % res)
