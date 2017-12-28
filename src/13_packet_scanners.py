@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from copy import copy
-
 
 class Level:
     def __init__(self, depth, range):
