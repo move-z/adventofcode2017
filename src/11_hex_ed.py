@@ -8305,5 +8305,8 @@ if __name__ == '__main__':
         'sw'
     )
 
+    res = first(*data)
+    print(">>> %s" % res)
+
     res = second(*data)
     print(">>> %s" % res)
