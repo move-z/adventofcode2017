@@ -132,14 +132,14 @@ def first(*particles):
 def second(*particles):
     remaining = list(particles)
 
-    intersections = defaultdict(lambda: set())
+    intersections = defaultdict(lambda: [])
     for i in range(len(remaining)):
         for j in range(i + 1, len(remaining)):
             a = remaining[i]
             b = remaining[j]
             collision = a.intersects(b)
             if collision is not None:
-                intersections[collision].update((a, b))
+                intersections[collision].append((a, b))
 
     while True:
         if not intersections:
@@ -147,16 +147,19 @@ def second(*particles):
         intervals = intersections.keys()
         first_collision = min(intervals)
         collisions = intersections[first_collision]
-        for particle in collisions:
+        for particle in set([p for c in collisions for p in c]):
             del remaining[remaining.index(particle)]
             for t in intervals:
                 if t == first_collision:
                     continue
-                c = intersections[t]
-                if particle in c:
-                    c.remove(particle)
-                    if len(c) <= 1:
-                        del intersections[t]
+                cs = intersections[t]
+                for c in cs:
+                    if particle in c:
+                        c.remove(c.index(particle))
+                    # una particella non collide da sola
+                    if len(c) == 1:
+                        c.remove(0)
+
         del intersections[first_collision]
 
     return len(remaining)
