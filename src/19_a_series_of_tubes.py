@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
-from enum import Enum
+from enum import Enum, auto
 from string import ascii_uppercase
 
 
 class Direction(Enum):
-    up = "up"
-    down = "down"
-    left = "left"
-    right = "right"
+    UP = auto()
+    DOWN = auto()
+    LEFT = auto()
+    RIGHT = auto()
 
 
 class Position:
     def __init__(self, diagram):
         self.diagram = diagram
         self.x, self.y = diagram[0].index("|"), 0
-        self.direction = Direction.down
+        self.direction = Direction.DOWN
 
     def get_symbol(self):
         return self.diagram[self.y][self.x]
@@ -22,13 +22,13 @@ class Position:
     def advance(self):
         if self.get_symbol() == "+":
             self.turn()
-        elif self.direction == Direction.up:
+        elif self.direction == Direction.UP:
             self.go_up()
-        elif self.direction == Direction.down:
+        elif self.direction == Direction.DOWN:
             self.go_down()
-        elif self.direction == Direction.right:
+        elif self.direction == Direction.RIGHT:
             self.go_right()
-        elif self.direction == Direction.left:
+        elif self.direction == Direction.LEFT:
             self.go_left()
 
         if not self.is_valid(self.x, self.y):
@@ -47,21 +47,21 @@ class Position:
         self.y += 1
 
     def turn(self):
-        if self.direction != Direction.right and self.direction != Direction.left and \
+        if self.direction != Direction.RIGHT and self.direction != Direction.LEFT and \
                 self.is_valid(self.x - 1, self.y, '|'):
-            self.direction = Direction.left
+            self.direction = Direction.LEFT
             self.go_left()
-        elif self.direction != Direction.left and self.direction != Direction.right and \
+        elif self.direction != Direction.LEFT and self.direction != Direction.RIGHT and \
                 self.is_valid(self.x + 1, self.y, '|'):
-            self.direction = Direction.right
+            self.direction = Direction.RIGHT
             self.go_right()
-        elif self.direction != Direction.down and self.direction != Direction.up and \
+        elif self.direction != Direction.DOWN and self.direction != Direction.UP and \
                 self.is_valid(self.x, self.y - 1, '-'):
-            self.direction = Direction.up
+            self.direction = Direction.UP
             self.go_up()
-        elif self.direction != Direction.up and self.direction != Direction.down and \
+        elif self.direction != Direction.UP and self.direction != Direction.DOWN and \
                 self.is_valid(self.x, self.y + 1, '-'):
-            self.direction = Direction.down
+            self.direction = Direction.DOWN
             self.go_down()
         else:
             raise Position.Invalid
